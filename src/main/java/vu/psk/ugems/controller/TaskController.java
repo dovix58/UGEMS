@@ -1,12 +1,12 @@
-package vu.psk.ugems.controllers;
+package vu.psk.ugems.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vu.psk.ugems.dtos.TaskDto;
-import vu.psk.ugems.entities.Task;
-import vu.psk.ugems.services.TaskService;
+import vu.psk.ugems.dto.TaskDto;
+import vu.psk.ugems.entity.Task;
+import vu.psk.ugems.service.TaskService;
 
 import java.util.List;
 

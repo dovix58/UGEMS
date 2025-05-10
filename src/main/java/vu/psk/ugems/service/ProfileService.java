@@ -1,9 +1,9 @@
-package vu.psk.ugems.services;
+package vu.psk.ugems.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import vu.psk.ugems.dtos.ProfileDto;
-import vu.psk.ugems.repositories.ProfileRepository;
+import vu.psk.ugems.dto.ProfileDto;
+import vu.psk.ugems.repository.ProfileRepository;
 
 import java.util.List;
 

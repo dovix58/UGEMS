@@ -1,4 +1,4 @@
-package vu.psk.ugems.entities;
+package vu.psk.ugems.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,10 +1,9 @@
-package vu.psk.ugems.services;
+package vu.psk.ugems.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import vu.psk.ugems.dtos.CommentDto;
-import vu.psk.ugems.dtos.TaskDto;
-import vu.psk.ugems.repositories.CommentRepository;
+import vu.psk.ugems.dto.CommentDto;
+import vu.psk.ugems.repository.CommentRepository;
 
 import java.util.List;
 
@@ -17,7 +16,6 @@ public class CommentService {
     public CommentDto createComment(CommentDto commentDto) {
         return null;
     }
-
 
     public List<CommentDto> getCommentsByTask(Long taskId) {
         return null;

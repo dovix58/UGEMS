@@ -1,10 +1,8 @@
-package vu.psk.ugems.dtos;
+package vu.psk.ugems.dto;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import vu.psk.ugems.enums.Status;
 
 import java.time.LocalDate;
 

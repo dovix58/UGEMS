@@ -1,11 +1,11 @@
-package vu.psk.ugems.controllers;
+package vu.psk.ugems.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vu.psk.ugems.dtos.GroupDto;
-import vu.psk.ugems.services.GroupService;
+import vu.psk.ugems.dto.GroupDto;
+import vu.psk.ugems.service.GroupService;
 
 import java.util.List;
 

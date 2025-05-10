@@ -1,10 +1,9 @@
-package vu.psk.ugems.services;
+package vu.psk.ugems.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import vu.psk.ugems.dtos.GroupDto;
-import vu.psk.ugems.entities.Group;
-import vu.psk.ugems.repositories.GroupRepository;
+import vu.psk.ugems.dto.GroupDto;
+import vu.psk.ugems.repository.GroupRepository;
 
 import java.util.List;
 

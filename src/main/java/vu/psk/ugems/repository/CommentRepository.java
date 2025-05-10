@@ -1,7 +1,7 @@
-package vu.psk.ugems.repositories;
+package vu.psk.ugems.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import vu.psk.ugems.entities.Comment;
+import vu.psk.ugems.entity.Comment;
 
 public interface CommentRepository extends CrudRepository<Comment, Long> {
 }

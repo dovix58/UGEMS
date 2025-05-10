@@ -1,4 +1,4 @@
-package vu.psk.ugems.dtos;
+package vu.psk.ugems.dto;
 
 public class CommentDto {
 }

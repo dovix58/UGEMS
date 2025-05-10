@@ -1,14 +1,14 @@
-package vu.psk.ugems.services;
+package vu.psk.ugems.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import vu.psk.ugems.dtos.TaskDto;
-import vu.psk.ugems.entities.Task;
+import vu.psk.ugems.dto.TaskDto;
+import vu.psk.ugems.entity.Task;
 import vu.psk.ugems.enums.Status;
-import vu.psk.ugems.repositories.GroupRepository;
-import vu.psk.ugems.repositories.ProfileRepository;
-import vu.psk.ugems.repositories.TaskRepository;
+import vu.psk.ugems.repository.GroupRepository;
+import vu.psk.ugems.repository.ProfileRepository;
+import vu.psk.ugems.repository.TaskRepository;
 
 import java.time.LocalDate;
 import java.util.List;
