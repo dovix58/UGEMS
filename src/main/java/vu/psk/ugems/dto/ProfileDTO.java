@@ -15,7 +15,8 @@ public class ProfileDTO {
     private String description;
     private String role;
     private LocalDate joinedDate;
-    private UserDTO user;
-    private GroupDTO group;
+    private Long userId;
+    private Long groupId;
 }
+
 
