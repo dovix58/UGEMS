@@ -1,4 +1,4 @@
-package vu.psk.ugems.entities;
+package vu.psk.ugems.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,15 +11,16 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
-public class User {
+@Table(name = "groups")
+public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
+    private String name;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private List<Profile> profiles;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    private List<Task> tasks;
 }

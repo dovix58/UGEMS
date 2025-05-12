@@ -1,17 +1,16 @@
-package vu.psk.ugems.dtos;
+package vu.psk.ugems.dto;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import vu.psk.ugems.enums.Status;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskDto {
+public class TaskDTO {
     private Long id;
     private String title;
     private LocalDate createdDate;
@@ -20,6 +19,8 @@ public class TaskDto {
     private LocalDate deadline;
     private String status;
     private Long groupId;
-    private Long assigneeId;
-    private Long creatorId;
+    private Long assignedToId;
+    private Long createdById;
+    private List<Long> commentIds;
 }
+

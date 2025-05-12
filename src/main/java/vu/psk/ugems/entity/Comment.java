@@ -1,4 +1,4 @@
-package vu.psk.ugems.entities;
+package vu.psk.ugems.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,22 +11,20 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "profiles")
-public class Profile {
+@Table(name = "comments")
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
-    private String description;
-    private String role;
-    private LocalDate joinedDate;
+    private String content;
+    private LocalDate createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "task_id")
+    private Task task;
 
     @ManyToOne
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
 }

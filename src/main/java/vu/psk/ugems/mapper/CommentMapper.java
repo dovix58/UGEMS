@@ -5,6 +5,8 @@ import org.mapstruct.Mapping;
 import vu.psk.ugems.dto.CommentDTO;
 import vu.psk.ugems.entity.Comment;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
 
@@ -15,6 +17,8 @@ public interface CommentMapper {
     @Mapping(source = "task.id", target = "taskId")
     @Mapping(source = "profile.id", target = "profileId")
     CommentDTO toDto(Comment entity);
+
+    List<CommentDTO> toDtoList(List<Comment> entities);
 }
 
 
