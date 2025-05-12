@@ -2,7 +2,7 @@ package vu.psk.ugems.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import vu.psk.ugems.dto.ProfileDto;
+import vu.psk.ugems.dto.ProfileDTO;
 import vu.psk.ugems.repository.ProfileRepository;
 
 import java.util.List;
@@ -13,27 +13,27 @@ public class ProfileService {
 
     private final ProfileRepository profileRepository;
 
-    public ProfileDto createProfile(ProfileDto profileDto) {
+    public ProfileDTO createProfile(ProfileDTO profileDto) {
         return null;
     }
 
-    public List<ProfileDto> getProfilesByUser(Long userId) {
+    public List<ProfileDTO> getProfilesByUser(Long userId) {
         return null;
     }
 
-    public List<ProfileDto> getProfilesByGroup(Long groupId) {
+    public List<ProfileDTO> getProfilesByGroup(Long groupId) {
         return null;
     }
 
-    public ProfileDto getProfile(Long profileId) {
+    public ProfileDTO getProfile(Long profileId) {
         return null;
     }
 
-    public ProfileDto updateProfile(ProfileDto profileDto) {
+    public ProfileDTO updateProfile(ProfileDTO profileDto) {
         return null;
     }
 
-    public ProfileDto deleteProfile(Long profileId) {
+    public ProfileDTO deleteProfile(Long profileId) {
         return null;
     }
 }

@@ -2,7 +2,7 @@ package vu.psk.ugems.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import vu.psk.ugems.dto.GroupDto;
+import vu.psk.ugems.dto.GroupDTO;
 import vu.psk.ugems.repository.GroupRepository;
 
 import java.util.List;
@@ -14,23 +14,23 @@ public class GroupService {
     private final GroupRepository groupRepository;
 
 
-    public GroupDto createGroup(GroupDto groupDto) {
+    public GroupDTO createGroup(GroupDTO groupDto) {
         return null;
     }
 
-    public List<GroupDto> getGroupsByUser(Long userId) {
+    public List<GroupDTO> getGroupsByUser(Long userId) {
         return null;
     }
 
-    public GroupDto getGroup(Long groupId) {
+    public GroupDTO getGroup(Long groupId) {
         return null;
     }
 
-    public GroupDto updateGroup(GroupDto groupDto) {
+    public GroupDTO updateGroup(GroupDTO groupDto) {
         return null;
     }
 
-    public GroupDto deleteGroup(Long groupId) {
+    public GroupDTO deleteGroup(Long groupId) {
         return null;
     }
 }

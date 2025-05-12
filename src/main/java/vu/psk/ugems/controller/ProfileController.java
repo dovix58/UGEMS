@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vu.psk.ugems.dto.ProfileDto;
+import vu.psk.ugems.dto.ProfileDTO;
 import vu.psk.ugems.service.ProfileService;
 
 import java.util.List;
@@ -17,32 +17,32 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @PostMapping
-    public ResponseEntity<ProfileDto> createComment(@RequestBody ProfileDto profileDto) {
+    public ResponseEntity<ProfileDTO> createComment(@RequestBody ProfileDTO profileDto) {
         return new ResponseEntity<>(profileService.createProfile(profileDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/of-user/userId?={userId}")
-    public ResponseEntity<List<ProfileDto>> getProfilesByUser(@PathVariable Long userId) {
+    public ResponseEntity<List<ProfileDTO>> getProfilesByUser(@PathVariable Long userId) {
         return new ResponseEntity<>(profileService.getProfilesByUser(userId), HttpStatus.OK);
     }
 
     @GetMapping("/of-group/groupId?={groupId}")
-    public ResponseEntity<List<ProfileDto>> getProfilesByGroup(@PathVariable Long groupId) {
+    public ResponseEntity<List<ProfileDTO>> getProfilesByGroup(@PathVariable Long groupId) {
         return new ResponseEntity<>(profileService.getProfilesByGroup(groupId), HttpStatus.OK);
     }
 
     @GetMapping("/profileId?={profileId}")
-    public ResponseEntity<ProfileDto> getProfile(@PathVariable Long profileId) {
+    public ResponseEntity<ProfileDTO> getProfile(@PathVariable Long profileId) {
         return new ResponseEntity<>(profileService.getProfile(profileId), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<ProfileDto> updateProfile(@RequestBody ProfileDto profileDto) {
+    public ResponseEntity<ProfileDTO> updateProfile(@RequestBody ProfileDTO profileDto) {
         return new ResponseEntity<>(profileService.updateProfile(profileDto), HttpStatus.OK);
     }
 
     @DeleteMapping("/profileId?={profileId}")
-    public ResponseEntity<ProfileDto> deleteProfile(@PathVariable Long profileId) {
+    public ResponseEntity<ProfileDTO> deleteProfile(@PathVariable Long profileId) {
         return new ResponseEntity<>(profileService.deleteProfile(profileId), HttpStatus.OK);
     }
 }
