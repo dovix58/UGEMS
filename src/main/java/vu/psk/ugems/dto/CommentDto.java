@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 
 @Data
 @NoArgsConstructor
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 public class CommentDTO {
     private Long id;
     private String content;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     private Long taskId;
     private Long profileId;
 }
