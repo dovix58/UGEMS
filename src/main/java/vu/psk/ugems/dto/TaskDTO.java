@@ -18,8 +18,9 @@ public class TaskDTO {
     private String description;
     private LocalDate deadline;
     private String status;
-    private GroupDTO group;
-    private ProfileDTO assignedTo;
-    private ProfileDTO createdBy;
-    private List<CommentDTO> comments;
+    private Long groupId;
+    private Long assignedToId;
+    private Long createdById;
+    private List<Long> commentIds;
 }
+

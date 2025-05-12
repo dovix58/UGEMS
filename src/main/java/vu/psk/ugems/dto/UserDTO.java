@@ -14,6 +14,5 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private List<ProfileDTO> profiles;
+    private List<Long> profileIds;
 }
-

@@ -13,7 +13,6 @@ public class CommentDTO {
     private Long id;
     private String content;
     private LocalDateTime createdAt;
-    private TaskDTO task;
-    private ProfileDTO profile;
+    private Long taskId;
+    private Long profileId;
 }
-
