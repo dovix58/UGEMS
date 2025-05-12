@@ -21,12 +21,12 @@ public class CommentController {
         return new ResponseEntity<>(commentService.createComment(commentDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/of-task/taskId?={taskId}")
+    @GetMapping("/of-task/{taskId}")
     public ResponseEntity<List<CommentDTO>> getCommentsByTask(@PathVariable Long taskId) {
         return new ResponseEntity<>(commentService.getCommentsByTask(taskId), HttpStatus.OK);
     }
 
-    @GetMapping("/commentId?={commentId}")
+    @GetMapping("/{commentId}")
     public ResponseEntity<CommentDTO> getComment(@PathVariable Long commentId) {
         return new ResponseEntity<>(commentService.getComment(commentId), HttpStatus.OK);
     }
@@ -36,8 +36,9 @@ public class CommentController {
         return new ResponseEntity<>(commentService.updateComment(commentDto), HttpStatus.OK);
     }
 
-    @DeleteMapping("/commentId?={commentId}")
-    public ResponseEntity<CommentDTO> deleteComment(@PathVariable Long commentId) {
-        return new ResponseEntity<>(commentService.deleteComment(commentId), HttpStatus.OK);
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
+        commentService.deleteComment(commentId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

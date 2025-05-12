@@ -20,6 +20,8 @@ public interface GroupMapper {
     @Mapping(source = "tasks", target = "taskIds")
     GroupDTO toDto(Group group);
 
+    List<GroupDTO> toDtoList(List<Group> groups);
+
     //mapstruct uses these automatically:
     default List<Long> mapProfilesToIds(List<Profile> profiles) {
         if (profiles == null) return null;

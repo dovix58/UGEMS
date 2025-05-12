@@ -12,7 +12,8 @@ import java.util.List;
 public class GroupDTO {
     private Long id;
     private String name;
-    private List<ProfileDTO> profiles;
-    private List<TaskDTO> tasks;
+    private List<Long> profileIds;
+    private List<Long> taskIds;
 }
+
 

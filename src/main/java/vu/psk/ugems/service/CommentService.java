@@ -1,10 +1,15 @@
 package vu.psk.ugems.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vu.psk.ugems.dto.CommentDTO;
+import vu.psk.ugems.mapper.CommentMapper;
 import vu.psk.ugems.repository.CommentRepository;
+import vu.psk.ugems.repository.ProfileRepository;
+import vu.psk.ugems.repository.TaskRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -12,24 +17,52 @@ import java.util.List;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final CommentMapper commentMapper;
+    private final TaskRepository taskRepository;
+    private final ProfileRepository profileRepository;
 
     public CommentDTO createComment(CommentDTO commentDto) {
-        return null;
+        var task = taskRepository.findById(commentDto.getTaskId())
+                .orElseThrow(() -> new EntityNotFoundException("Task with ID " + commentDto.getTaskId() + "not found"));
+        var profile = profileRepository.findById(commentDto.getProfileId())
+                .orElseThrow(() -> new EntityNotFoundException("Profile with ID " + commentDto.getProfileId() + "not found"));
+
+        var comment = commentMapper.toEntity(commentDto);
+
+        comment.setTask(task);
+        comment.setProfile(profile);
+        comment.setCreatedAt(LocalDate.now());
+
+        return commentMapper.toDto(commentRepository.save(comment));
     }
 
     public List<CommentDTO> getCommentsByTask(Long taskId) {
-        return null;
+        var task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new EntityNotFoundException("Task with ID " + taskId + "not found"));
+        var comments = task.getComments();
+        return commentMapper.toDtoList(comments);
     }
 
     public CommentDTO getComment(Long commentId) {
-        return null;
+        var comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new EntityNotFoundException("Comment with ID " + commentId + "not found"));
+        return commentMapper.toDto(comment);
     }
 
     public CommentDTO updateComment(CommentDTO commentDto) {
-        return null;
+        var commentToUpdate = commentRepository.findById(commentDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Comment with ID " + commentDto.getId() + "not found"));
+
+        if (commentDto.getContent() != null) {
+            commentToUpdate.setContent(commentDto.getContent());
+        }
+
+        return commentMapper.toDto(commentRepository.save(commentToUpdate));
     }
 
-    public CommentDTO deleteComment(Long commentId) {
-        return null;
+    public void deleteComment(Long commentId) {
+        var comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new EntityNotFoundException("Comment with ID " + commentId + "not found"));
+        commentRepository.delete(comment);
     }
 }

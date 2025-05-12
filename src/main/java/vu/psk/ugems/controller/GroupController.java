@@ -20,12 +20,12 @@ public class GroupController {
         return new ResponseEntity<>(groupService.createGroup(groupDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/of-user/userId?={userId}")
+    @GetMapping("/of-user/{userId}")
     public ResponseEntity<List<GroupDTO>> getGroupsByUser(@PathVariable Long userId) {
         return new ResponseEntity<>(groupService.getGroupsByUser(userId), HttpStatus.OK);
     }
 
-    @GetMapping("/groupId?={groupId}")
+    @GetMapping("/{groupId}")
     public ResponseEntity<GroupDTO> getGroup(@PathVariable Long groupId) {
         return new ResponseEntity<>(groupService.getGroup(groupId), HttpStatus.OK);
     }
@@ -35,8 +35,9 @@ public class GroupController {
         return new ResponseEntity<>(groupService.updateGroup(groupDto), HttpStatus.OK);
     }
 
-    @DeleteMapping("/groupId?={groupId}")
-    public ResponseEntity<GroupDTO> deleteGroup(@PathVariable Long groupId) {
-        return new ResponseEntity<>(groupService.deleteGroup(groupId), HttpStatus.OK);
+    @DeleteMapping("/{groupId}")
+    public ResponseEntity<Void> deleteGroup(@PathVariable Long groupId) {
+        groupService.deleteGroup(groupId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -17,21 +17,21 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @PostMapping
-    public ResponseEntity<ProfileDTO> createComment(@RequestBody ProfileDTO profileDto) {
+    public ResponseEntity<ProfileDTO> createProfile(@RequestBody ProfileDTO profileDto) {
         return new ResponseEntity<>(profileService.createProfile(profileDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/of-user/userId?={userId}")
+    @GetMapping("/of-user/{userId}")
     public ResponseEntity<List<ProfileDTO>> getProfilesByUser(@PathVariable Long userId) {
         return new ResponseEntity<>(profileService.getProfilesByUser(userId), HttpStatus.OK);
     }
 
-    @GetMapping("/of-group/groupId?={groupId}")
+    @GetMapping("/of-group/{groupId}")
     public ResponseEntity<List<ProfileDTO>> getProfilesByGroup(@PathVariable Long groupId) {
         return new ResponseEntity<>(profileService.getProfilesByGroup(groupId), HttpStatus.OK);
     }
 
-    @GetMapping("/profileId?={profileId}")
+    @GetMapping("/{profileId}")
     public ResponseEntity<ProfileDTO> getProfile(@PathVariable Long profileId) {
         return new ResponseEntity<>(profileService.getProfile(profileId), HttpStatus.OK);
     }
@@ -41,8 +41,9 @@ public class ProfileController {
         return new ResponseEntity<>(profileService.updateProfile(profileDto), HttpStatus.OK);
     }
 
-    @DeleteMapping("/profileId?={profileId}")
-    public ResponseEntity<ProfileDTO> deleteProfile(@PathVariable Long profileId) {
-        return new ResponseEntity<>(profileService.deleteProfile(profileId), HttpStatus.OK);
+    @DeleteMapping("/{profileId}")
+    public ResponseEntity<Void> deleteProfile(@PathVariable Long profileId) {
+        profileService.deleteProfile(profileId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

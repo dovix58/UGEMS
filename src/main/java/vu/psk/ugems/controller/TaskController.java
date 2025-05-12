@@ -16,13 +16,18 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping
-    public ResponseEntity<TaskDTO> createTask(@RequestBody TaskCreateDTO taskDto) {
+    public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO taskDto) {
         return new ResponseEntity<>(taskService.createTask(taskDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/groupId?={groupId}")
+    @GetMapping("/of-group/{groupId}")
     public ResponseEntity<List<TaskDTO>> getTasksByGroup(@PathVariable Long groupId) {
         return new ResponseEntity<>(taskService.getTasksByGroupId(groupId), HttpStatus.OK);
+    }
+
+    @GetMapping("/{taskId}")
+    public ResponseEntity<TaskDTO> getTask(@PathVariable Long taskId) {
+        return new ResponseEntity<>(taskService.getTask(taskId), HttpStatus.OK);
     }
 
     @PutMapping
@@ -30,8 +35,9 @@ public class TaskController {
         return new ResponseEntity<>(taskService.updateTask(taskDto), HttpStatus.OK);
     }
 
-    @DeleteMapping("/taskId?={taskId}")
-    public ResponseEntity<TaskDTO> deleteTask(@PathVariable Long taskId) {
-        return new ResponseEntity<>(taskService.deleteTask(taskId), HttpStatus.OK);
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<Void> deleteTask(@PathVariable Long taskId) {
+        taskService.deleteTask(taskId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

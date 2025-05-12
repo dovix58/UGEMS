@@ -22,12 +22,12 @@ public class TaskService {
     private final ProfileRepository profileRepository;
     private final TaskMapper taskMapper;
 
-    public TaskDTO createTask(TaskCreateDTO taskDto) {
+    public TaskDTO createTask(TaskDTO taskDto) {
 
         var group = groupRepository.findById(taskDto.getGroupId())
                 .orElseThrow(() -> new EntityNotFoundException("Group with ID " + taskDto.getGroupId() + "not found"));
-        var creatorProfile = profileRepository.findById(taskDto.getCreatorId())
-                .orElseThrow(() -> new EntityNotFoundException("Creator profile with ID " + taskDto.getCreatorId() + "not found"));
+        var creatorProfile = profileRepository.findById(taskDto.getCreatedById())
+                .orElseThrow(() -> new EntityNotFoundException("Creator profile with ID " + taskDto.getCreatedById() + "not found"));
 
         var task = taskMapper.toEntity(taskDto);
 
@@ -40,8 +40,7 @@ public class TaskService {
         task.setGroup(group);
         task.setComments(null);
 
-        taskRepository.save(task);
-        return taskMapper.toDto(task);
+        return taskMapper.toDto(taskRepository.save(task));
     }
 
     public List<TaskDTO> getTasksByGroupId(Long groupId) {
@@ -51,38 +50,47 @@ public class TaskService {
         return taskMapper.toDtoList(tasks);
     }
 
-    public Task updateTask(TaskDTO taskDto) {
-        var group = groupRepository.findById(taskDto.getGroupId())
-                .orElseThrow(() -> new EntityNotFoundException("Group with ID " + taskDto.getGroupId() + "not found"));
-        var creatorProfile = profileRepository.findById(taskDto.getCreatorId())
-                .orElseThrow(() -> new EntityNotFoundException("Creator profile with ID " + taskDto.getCreatorId() + "not found"));
-
-        var task = Task.builder()
-                .id(taskDto.getId())
-                .title(taskDto.getTitle())
-                .createdDate(LocalDate.now())
-                .description(taskDto.getDescription())
-                .deadline(taskDto.getDeadline())
-                .status(Status.valueOf(taskDto.getStatus()))
-                .group(group)
-                .createdBy(creatorProfile)
-                .build();
-
-        if (taskDto.getAssigneeId() != null) {
-            var assigneeProfile = profileRepository.findById(taskDto.getAssigneeId())
-                    .orElseThrow(() -> new EntityNotFoundException("Assignee profile with ID " + taskDto.getAssigneeId() + "not found"));
-            task.setAssignedTo(assigneeProfile);
-            task.setAssignedDate(taskDto.getAssignedDate());
-        }
-
-        taskRepository.save(task);
-        return task;
+    public TaskDTO getTask(Long taskId) {
+        var task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new EntityNotFoundException("Task with ID " + taskId + "not found"));
+        return taskMapper.toDto(task);
     }
 
-    public Task deleteTask(Long id) {
+    public TaskDTO updateTask(TaskDTO taskDto) {
+
+        var taskToUpdate = taskRepository.findById(taskDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Task with ID " + taskDto.getId() + " not found"));
+
+        if (taskDto.getTitle() != null) {
+            taskToUpdate.setTitle(taskDto.getTitle());
+        }
+        if (taskDto.getDescription() != null) {
+            taskToUpdate.setDescription(taskDto.getDescription());
+        }
+        if (taskDto.getDeadline() != null) {
+            taskToUpdate.setDeadline(taskDto.getDeadline());
+        }
+        if (taskDto.getStatus() != null) {
+            taskToUpdate.setStatus(Status.valueOf(taskDto.getStatus()));
+        }
+
+
+        if (taskDto.getAssignedToId() != null) {
+            var assigneeProfile = profileRepository.findById(taskDto.getAssignedToId())
+                    .orElseThrow(() -> new EntityNotFoundException("Assignee profile with ID " + taskDto.getAssignedToId() + " not found"));
+            taskToUpdate.setAssignedTo(assigneeProfile);
+            taskToUpdate.setAssignedDate(LocalDate.now());
+        } else {
+            taskToUpdate.setAssignedTo(null);
+            taskToUpdate.setAssignedDate(null);
+        }
+
+        return taskMapper.toDto(taskRepository.save(taskToUpdate));
+    }
+
+    public void deleteTask(Long id) {
         var task = taskRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Task with ID " + id + "not found"));
         taskRepository.deleteById(id);
-        return task;
     }
 }

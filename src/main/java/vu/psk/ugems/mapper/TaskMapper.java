@@ -23,6 +23,8 @@ public interface TaskMapper {
     @Mapping(source = "comments", target = "commentIds")
     TaskDTO toDto(Task task);
 
+    List<TaskDTO> toDtoList(List<Task> tasks);
+
     default List<Long> mapCommentsToIds(List<Comment> comments) {
         if (comments == null) return null;
         return comments.stream().map(Comment::getId).toList();
