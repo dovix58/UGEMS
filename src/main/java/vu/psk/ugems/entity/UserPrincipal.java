@@ -29,7 +29,7 @@ public class UserPrincipal implements UserDetails {
     public String getUsername() {
         return user.getEmail();
     }
-
+    //TODO: Complete these methods
     @Override
     public boolean isAccountNonExpired() {
         return true;
