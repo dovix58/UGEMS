@@ -24,19 +24,32 @@ public class TaskService {
 
     public TaskDTO createTask(TaskDTO taskDto) {
 
+        var task = taskMapper.toEntity(taskDto);
+
         var group = groupRepository.findById(taskDto.getGroupId())
                 .orElseThrow(() -> new EntityNotFoundException("Group with ID " + taskDto.getGroupId() + "not found"));
         var creatorProfile = profileRepository.findById(taskDto.getCreatedById())
                 .orElseThrow(() -> new EntityNotFoundException("Creator profile with ID " + taskDto.getCreatedById() + "not found"));
+        if(taskDto.getAssignedToId() != null){
+            var assignedTo = profileRepository.findById(taskDto.getAssignedToId())
+                    .orElseThrow(() -> new EntityNotFoundException("Assigned to with ID " + taskDto.getAssignedToId() + "not found"));
 
-        var task = taskMapper.toEntity(taskDto);
+            task.setAssignedTo(assignedTo);
+            task.setAssignedDate(LocalDate.now());
+        } else {
+            task.setAssignedTo(null);
+            task.setAssignedDate(null);
+        }
+
+        if (taskDto.getDeadline() != null) {
+            task.setDeadline(taskDto.getDeadline());
+        } else {
+            task.setDeadline(null);
+        }
 
         task.setCreatedDate(LocalDate.now());
         task.setCreatedBy(creatorProfile);
-        task.setAssignedDate(null);
-        task.setAssignedTo(null);
         task.setStatus(Status.TO_DO);
-        task.setDeadline(null);
         task.setGroup(group);
         task.setComments(null);
 
