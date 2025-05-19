@@ -9,7 +9,7 @@ import vu.psk.ugems.repository.CommentRepository;
 import vu.psk.ugems.repository.ProfileRepository;
 import vu.psk.ugems.repository.TaskRepository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -31,7 +31,7 @@ public class CommentService {
 
         comment.setTask(task);
         comment.setProfile(profile);
-        comment.setCreatedAt(LocalDate.now());
+        comment.setCreatedAt(LocalDateTime.now());
 
         return commentMapper.toDto(commentRepository.save(comment));
     }
