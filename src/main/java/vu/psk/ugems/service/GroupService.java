@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vu.psk.ugems.dto.GroupDTO;
 import vu.psk.ugems.entity.Profile;
+import vu.psk.ugems.interceptor.LoggedAction;
 import vu.psk.ugems.mapper.GroupMapper;
 import vu.psk.ugems.repository.GroupRepository;
 import vu.psk.ugems.repository.UserRepository;
@@ -12,6 +13,7 @@ import vu.psk.ugems.repository.UserRepository;
 import java.util.List;
 
 @Service
+@LoggedAction
 @RequiredArgsConstructor
 public class GroupService {
 
