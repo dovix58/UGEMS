@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import vu.psk.ugems.dto.LoginDTO;
 import vu.psk.ugems.dto.UserDTO;
 import vu.psk.ugems.mapper.UserMapper;
 import vu.psk.ugems.repository.UserRepository;
@@ -27,11 +28,21 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
-    public String verifyUser(UserDTO userDTO) {
+    public LoginDTO verifyUser(UserDTO userDTO) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
         if (!authentication.isAuthenticated()) {
             throw new BadCredentialsException("Invalid email or password");
         }
-        return jwtService.generateToken(userDTO.getEmail());
+        var user = userRepository.findByEmail(userDTO.getEmail());
+        var token = jwtService.generateToken(userDTO.getEmail());
+
+        return LoginDTO
+                .builder()
+                .token(token)
+                .userId(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .build();
     }
 }

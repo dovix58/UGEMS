@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vu.psk.ugems.dto.LoginDTO;
 import vu.psk.ugems.dto.UserDTO;
 import vu.psk.ugems.service.UserService;
 
@@ -20,7 +21,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserDTO userDTO) {
+    public LoginDTO login(@RequestBody UserDTO userDTO) {
         return userService.verifyUser(userDTO);
+    }
+
+    @PostMapping("/logout")
+    public void logout(@RequestBody UserDTO userDTO) {
+        //...
     }
 }
