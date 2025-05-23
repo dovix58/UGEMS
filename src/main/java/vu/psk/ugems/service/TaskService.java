@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import vu.psk.ugems.dto.TaskDTO;
 import vu.psk.ugems.entity.Task;
 import vu.psk.ugems.enums.Status;
+import vu.psk.ugems.interceptor.LoggedAction;
 import vu.psk.ugems.mapper.TaskMapper;
 import vu.psk.ugems.repository.GroupRepository;
 import vu.psk.ugems.repository.ProfileRepository;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@LoggedAction
 @RequiredArgsConstructor
 public class TaskService {
     private final TaskRepository taskRepository;

@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vu.psk.ugems.dto.ProfileDTO;
+import vu.psk.ugems.interceptor.LoggedAction;
 import vu.psk.ugems.mapper.ProfileMapper;
 import vu.psk.ugems.repository.GroupRepository;
 import vu.psk.ugems.repository.ProfileRepository;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@LoggedAction
 @RequiredArgsConstructor
 public class ProfileService {
 
