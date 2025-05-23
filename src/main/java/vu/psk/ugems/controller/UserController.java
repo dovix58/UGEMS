@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vu.psk.ugems.dto.ChangePasswordRequest;
 import vu.psk.ugems.dto.LoginDTO;
 import vu.psk.ugems.dto.UserDTO;
 import vu.psk.ugems.service.UserService;
@@ -16,8 +17,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public UserDTO createUser(@RequestBody UserDTO userDTO) {
-        return userService.createUser(userDTO);
+    public void createUser(@RequestBody UserDTO userDTO) {
+        userService.createUser(userDTO);
     }
 
     @PostMapping("/login")
@@ -25,8 +26,8 @@ public class UserController {
         return userService.verifyUser(userDTO);
     }
 
-    @PostMapping("/logout")
-    public void logout(@RequestBody UserDTO userDTO) {
-        //...
+    @PostMapping("/password")
+    public void changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        userService.changeUserPassword(changePasswordRequest);
     }
 }
