@@ -24,6 +24,7 @@ public class User {
     private String lastName;
 
     private String email;
+    private String password;
 
     @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Invitation> receivedInvitations = new ArrayList<>();
