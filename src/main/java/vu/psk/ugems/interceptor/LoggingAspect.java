@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Aspect
 @Component
@@ -23,11 +25,22 @@ public class LoggingAspect {
 
         String timestamp = LocalDateTime.now().format(formatter);
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getPrincipal()))
+                ? authentication.getName()
+                : "anonymous";
+
+        String authorities = authentication.getAuthorities().toString();
+
         String logMessage = String.format(
                 "Current Date and Time (UTC - YYYY-MM-DD HH:MM:SS formatted): %s\n" +
+                        "User: %s\n" +
+                        "Roles: %s\n" +
                         "Method class: %s\n" +
-                        "Method name: %s",
+                        "Method name: %s\n",
                 timestamp,
+                username,
+                authorities,
                 className,
                 methodName
         );
