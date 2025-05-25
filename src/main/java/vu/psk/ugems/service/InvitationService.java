@@ -39,7 +39,7 @@ public class InvitationService {
         User recipient = userRepository.findByEmail(invitationRequest.getInviteeEmail())
                 .orElseThrow(() -> new RuntimeException("Recipient not found"));
 
-        Invitation invitation = new  Invitation();
+        Invitation invitation = new Invitation();
         invitation.setInviterName(inviter.getFirstName());
         invitation.setGroup(group);
         invitation.setRecipient(recipient);
@@ -47,6 +47,7 @@ public class InvitationService {
 
         invitationRepository.save(invitation);
     }
+
     @Transactional
     public void acceptInvitation(Long invitationId) {
         Invitation invitation = invitationRepository.findById(invitationId)
@@ -56,25 +57,24 @@ public class InvitationService {
             throw new RuntimeException("Invitation already handled");
         }
 
-
-
         invitation.setInviteStatus(InviteStatus.ACCEPTED);
         invitationRepository.save(invitation);
 
         Profile profile = new Profile();
-        profile.setUser(invitation.getRecipient());
+
+        var user = invitation.getRecipient();
+        profile.setUser(user);
         profile.setJoinedDate(LocalDate.now());
         profile.setProfileRole(ProfileRole.MEMBER);
+        profile.setUsername(user.getFirstName());
 
         var group = invitation.getGroup();
-
-        groupRepository.save(group);
-
         profile.setGroup(group);
 
         profileRepository.save(profile);
 
     }
+
     @Transactional
     public void declineInvitation(Long invitationId) {
         Invitation invitation = invitationRepository.findById(invitationId)

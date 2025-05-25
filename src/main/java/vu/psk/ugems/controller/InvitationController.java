@@ -26,8 +26,7 @@ public class InvitationController {
 
     @GetMapping("/invites/{userId}")
     public ResponseEntity<List<InvitationResponse>> getMyInvitations(@PathVariable Long userId) {
-        var smth = invitationService.getAllInvitationsByUserId(userId);
-        return new ResponseEntity<>(smth, HttpStatus.OK);
+        return new ResponseEntity<>(invitationService.getAllInvitationsByUserId(userId), HttpStatus.OK);
     }
 
     @PostMapping("/accept/{invitationId}")
