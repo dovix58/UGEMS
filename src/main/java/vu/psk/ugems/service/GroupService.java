@@ -1,13 +1,16 @@
 package vu.psk.ugems.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import vu.psk.ugems.dto.GroupDTO;
 import vu.psk.ugems.entity.Profile;
+import vu.psk.ugems.entity.UserPrincipal;
 import vu.psk.ugems.interceptor.LoggedAction;
 import vu.psk.ugems.exception.ResourceNotFoundException;
 import vu.psk.ugems.mapper.GroupMapper;
 import vu.psk.ugems.repository.GroupRepository;
+import vu.psk.ugems.repository.ProfileRepository;
 import vu.psk.ugems.repository.UserRepository;
 
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.List;
 public class GroupService {
 
     private final GroupRepository groupRepository;
+    private final ProfileRepository profileRepository;
     private final GroupMapper groupMapper;
     private final UserRepository userRepository;
 
@@ -60,5 +64,15 @@ public class GroupService {
         var group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new ResourceNotFoundException("Group with ID " + groupId + "not found"));
         groupRepository.delete(group);
+    }
+
+    public boolean groupIsOwnedByCurrentUser(Long groupId) {
+        var userPrincipal = (UserPrincipal) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        var group = groupRepository.findById(groupId);
+        // TODO: Get profile by group and user; check if the profile IS_OWNER
+        return true;
     }
 }
