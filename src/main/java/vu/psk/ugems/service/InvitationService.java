@@ -28,7 +28,6 @@ public class InvitationService {
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
     private final ProfileRepository profileRepository;
-    // private final InvitationMapper invitationMapper;
 
     @Transactional
     public void sendInvitation(InvitationRequest invitationRequest) {
@@ -38,6 +37,22 @@ public class InvitationService {
                 .orElseThrow(() -> new RuntimeException("Group not found"));
         User recipient = userRepository.findByEmail(invitationRequest.getInviteeEmail())
                 .orElseThrow(() -> new RuntimeException("Recipient not found"));
+
+        if (inviter.getId().equals(recipient.getId())) {
+            throw new RuntimeException("You cannot invite yourself to a group");
+        }
+
+        if (profileRepository.existsByUserIdAndGroupId(recipient.getId(), group.getId())) {
+            throw new RuntimeException("User is already a member of the group");
+        }
+
+        boolean hasPendingInvite = invitationRepository.existsByRecipientIdAndGroupIdAndInviteStatus(
+                recipient.getId(), group.getId(), InviteStatus.PENDING
+        );
+
+        if (hasPendingInvite) {
+            throw new RuntimeException("An invitation has already been sent to this user");
+        }
 
         Invitation invitation = new Invitation();
         invitation.setInviterName(inviter.getFirstName());
@@ -89,9 +104,6 @@ public class InvitationService {
     }
 
     public List<InvitationResponse> getAllInvitationsByUserId(Long userId) {
-
-        var user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
         List<Invitation> invitations = invitationRepository.findAllByRecipientId(userId);
 
