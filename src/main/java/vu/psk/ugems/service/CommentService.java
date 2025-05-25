@@ -3,6 +3,7 @@ package vu.psk.ugems.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vu.psk.ugems.dto.CommentDTO;
+import vu.psk.ugems.interceptor.LoggedAction;
 import vu.psk.ugems.exception.ResourceNotFoundException;
 import vu.psk.ugems.mapper.CommentMapper;
 import vu.psk.ugems.repository.CommentRepository;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@LoggedAction
 @RequiredArgsConstructor
 public class CommentService {
 

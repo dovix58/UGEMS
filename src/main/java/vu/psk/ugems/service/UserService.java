@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import vu.psk.ugems.dto.ChangePasswordRequest;
 import vu.psk.ugems.dto.LoginDTO;
 import vu.psk.ugems.dto.UserDTO;
+import vu.psk.ugems.interceptor.LoggedAction;
 import vu.psk.ugems.mapper.UserMapper;
 import vu.psk.ugems.repository.UserRepository;
 
 @Service
+@LoggedAction
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
