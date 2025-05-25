@@ -1,5 +1,8 @@
 package vu.psk.ugems.controller;
 
+
+
+import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +35,11 @@ public class TaskController {
 
     @PutMapping
     public ResponseEntity<TaskDTO> updateTask(@RequestBody TaskDTO taskDto) {
-        return new ResponseEntity<>(taskService.updateTask(taskDto), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(taskService.updateTask(taskDto), HttpStatus.OK);
+        } catch (OptimisticLockException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
     @DeleteMapping("/{taskId}")

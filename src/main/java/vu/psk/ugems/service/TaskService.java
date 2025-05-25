@@ -1,10 +1,10 @@
 package vu.psk.ugems.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vu.psk.ugems.dto.TaskDTO;
-import vu.psk.ugems.entity.Task;
 import vu.psk.ugems.enums.Status;
 import vu.psk.ugems.mapper.TaskMapper;
 import vu.psk.ugems.repository.GroupRepository;
@@ -13,6 +13,7 @@ import vu.psk.ugems.repository.TaskRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -73,6 +74,10 @@ public class TaskService {
 
         var taskToUpdate = taskRepository.findById(taskDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Task with ID " + taskDto.getId() + " not found"));
+
+        if (!Objects.equals(taskToUpdate.getVersion(), taskDto.getVersion())) {
+            throw new OptimisticLockException("Task has been updated already.");
+        }
 
         if (taskDto.getTitle() != null) {
             taskToUpdate.setTitle(taskDto.getTitle());

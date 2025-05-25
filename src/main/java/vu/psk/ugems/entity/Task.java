@@ -27,6 +27,9 @@ public class Task {
     private String description;
     private LocalDate deadline;
 
+    @Version
+    private Long version;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
