@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vu.psk.ugems.dto.ProfileDTO;
 import vu.psk.ugems.interceptor.LoggedAction;
+import vu.psk.ugems.exception.ResourceNotFoundException;
 import vu.psk.ugems.mapper.ProfileMapper;
 import vu.psk.ugems.repository.GroupRepository;
 import vu.psk.ugems.repository.ProfileRepository;
@@ -26,9 +27,9 @@ public class ProfileService {
     public ProfileDTO createProfile(ProfileDTO profileDto) {
 
         var group = groupRepository.findById(profileDto.getGroupId())
-                .orElseThrow(() -> new EntityNotFoundException("Group with ID " + profileDto.getGroupId() + "not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Group with ID " + profileDto.getGroupId() + "not found"));
         var user = userRepository.findById(profileDto.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("User with ID " + profileDto.getUserId() + "not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User with ID " + profileDto.getUserId() + "not found"));
 
         var profile = profileMapper.toEntity(profileDto);
 
@@ -41,7 +42,7 @@ public class ProfileService {
 
     public List<ProfileDTO> getProfilesByUser(Long userId) {
         var user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User with ID " + userId + "not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User with ID " + userId + "not found"));
 
         var profiles = user.getProfiles();
         return profileMapper.toDtoList(profiles);
@@ -49,20 +50,20 @@ public class ProfileService {
 
     public List<ProfileDTO> getProfilesByGroup(Long groupId) {
         var group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new EntityNotFoundException("Group with ID " + groupId + "not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Group with ID " + groupId + "not found"));
         var profiles = group.getProfiles();
         return profileMapper.toDtoList(profiles);
     }
 
     public ProfileDTO getProfile(Long profileId) {
         var profile = profileRepository.findById(profileId)
-                .orElseThrow(() -> new EntityNotFoundException("Profile with ID " + profileId + "not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Profile with ID " + profileId + "not found"));
         return profileMapper.toDto(profile);
     }
 
     public ProfileDTO updateProfile(ProfileDTO profileDto) {
         var profileToUpdate = profileRepository.findById(profileDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Profile with ID " + profileDto.getId() + "not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Profile with ID " + profileDto.getId() + "not found"));
 
         if (profileDto.getUsername() != null) {
             profileToUpdate.setUsername(profileDto.getUsername());
@@ -79,7 +80,7 @@ public class ProfileService {
 
     public void deleteProfile(Long profileId) {
         var profile = profileRepository.findById(profileId)
-                .orElseThrow(() -> new EntityNotFoundException("Profile with ID " + profileId + "not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Profile with ID " + profileId + "not found"));
         profileRepository.delete(profile);
     }
 }
