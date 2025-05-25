@@ -1,10 +1,11 @@
 package vu.psk.ugems.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vu.psk.ugems.dto.GroupDTO;
 import vu.psk.ugems.entity.Profile;
+import vu.psk.ugems.interceptor.LoggedAction;
+import vu.psk.ugems.exception.ResourceNotFoundException;
 import vu.psk.ugems.mapper.GroupMapper;
 import vu.psk.ugems.repository.GroupRepository;
 import vu.psk.ugems.repository.UserRepository;
@@ -12,6 +13,7 @@ import vu.psk.ugems.repository.UserRepository;
 import java.util.List;
 
 @Service
+@LoggedAction
 @RequiredArgsConstructor
 public class GroupService {
 
@@ -31,7 +33,7 @@ public class GroupService {
 
     public List<GroupDTO> getGroupsByUser(Long userId) {
         var user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User with ID " + userId + "not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User with ID " + userId + "not found"));
 
         var groups = user.getProfiles().stream().map(Profile::getGroup).toList();
         return groupMapper.toDtoList(groups);
@@ -39,13 +41,13 @@ public class GroupService {
 
     public GroupDTO getGroup(Long groupId) {
         var group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new EntityNotFoundException("Group with ID " + groupId + "not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Group with ID " + groupId + "not found"));
         return groupMapper.toDto(group);
     }
 
     public GroupDTO updateGroup(GroupDTO groupDto) {
         var group = groupRepository.findById(groupDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Group with ID " + groupDto.getId() + "not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Group with ID " + groupDto.getId() + "not found"));
 
         if (groupDto.getName() != null) {
             group.setName(groupDto.getName());
@@ -56,7 +58,7 @@ public class GroupService {
 
     public void deleteGroup(Long groupId) {
         var group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new EntityNotFoundException("Group with ID " + groupId + "not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Group with ID " + groupId + "not found"));
         groupRepository.delete(group);
     }
 }
