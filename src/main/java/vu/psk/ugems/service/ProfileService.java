@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import vu.psk.ugems.dto.ProfileDTO;
 import vu.psk.ugems.interceptor.LoggedAction;
 import vu.psk.ugems.exception.ResourceNotFoundException;
+import vu.psk.ugems.enums.ProfileRole;
 import vu.psk.ugems.mapper.ProfileMapper;
 import vu.psk.ugems.repository.GroupRepository;
 import vu.psk.ugems.repository.ProfileRepository;
@@ -72,7 +73,7 @@ public class ProfileService {
             profileToUpdate.setDescription(profileDto.getDescription());
         }
         if (profileDto.getRole() != null) {
-            profileToUpdate.setRole(profileDto.getRole());
+            profileToUpdate.setProfileRole(ProfileRole.MEMBER);
         }
 
         return profileMapper.toDto(profileRepository.save(profileToUpdate));

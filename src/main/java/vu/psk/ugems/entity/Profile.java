@@ -3,12 +3,16 @@ package vu.psk.ugems.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import vu.psk.ugems.enums.ProfileRole;
 
 import java.time.LocalDate;
 
-@Data
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "profiles")
@@ -19,7 +23,10 @@ public class Profile {
 
     private String username;
     private String description;
-    private String role;
+
+    @Enumerated(EnumType.STRING)
+    private ProfileRole profileRole;
+
     private LocalDate joinedDate;
 
     @ManyToOne

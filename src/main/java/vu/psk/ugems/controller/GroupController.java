@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import vu.psk.ugems.dto.CreateGroupRequest;
 import vu.psk.ugems.dto.GroupDTO;
 import vu.psk.ugems.service.GroupService;
 
@@ -16,8 +18,8 @@ public class GroupController {
     private final GroupService groupService;
 
     @PostMapping
-    public ResponseEntity<GroupDTO> createGroup(@RequestBody GroupDTO groupDto) {
-        return new ResponseEntity<>(groupService.createGroup(groupDto), HttpStatus.CREATED);
+    public ResponseEntity<GroupDTO> createGroup(@RequestBody CreateGroupRequest createGroupRequest) {
+        return new ResponseEntity<>(groupService.createGroup(createGroupRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/of-user/{userId}")

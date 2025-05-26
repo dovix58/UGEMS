@@ -1,5 +1,6 @@
 package vu.psk.ugems.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -35,7 +36,7 @@ public class UserService {
         if (!authentication.isAuthenticated()) {
             throw new BadCredentialsException("Invalid email or password");
         }
-        var user = userRepository.findByEmail(userDTO.getEmail());
+        var user = userRepository.findByEmail(userDTO.getEmail()).orElseThrow(EntityNotFoundException::new);
         var token = jwtService.generateToken(userDTO.getEmail());
 
         return LoginDTO
@@ -49,7 +50,7 @@ public class UserService {
     }
 
     public void changeUserPassword(ChangePasswordRequest changePasswordRequest) {
-        var user = userRepository.findByEmail(changePasswordRequest.getEmail());
+        var user = userRepository.findByEmail(changePasswordRequest.getEmail()).orElseThrow(EntityNotFoundException::new);
         if (!bCryptPasswordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword()))
             throw new BadCredentialsException("Old password is incorrect when trying to change password for " + changePasswordRequest.getEmail());
         user.setPassword(bCryptPasswordEncoder.encode(changePasswordRequest.getNewPassword()));
