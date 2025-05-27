@@ -3,11 +3,12 @@ package vu.psk.ugems.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import vu.psk.ugems.dto.CreateGroupRequest;
 import vu.psk.ugems.dto.GroupDTO;
-import vu.psk.ugems.service.GroupService;
+import vu.psk.ugems.service.IGroupService;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/groups")
 public class GroupController {
-    private final GroupService groupService;
+    private final IGroupService groupService;
 
     @PostMapping
     public ResponseEntity<GroupDTO> createGroup(@RequestBody CreateGroupRequest createGroupRequest) {
