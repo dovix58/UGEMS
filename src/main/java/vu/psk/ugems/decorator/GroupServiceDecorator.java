@@ -44,12 +44,18 @@ public class GroupServiceDecorator implements IGroupService {
 
     @Override
     public GroupDTO updateGroup(GroupDTO groupDto) {
-        return delegate.updateGroup(groupDto);
+        if (delegate.groupIsOwnedByCurrentUser(groupDto.getId()))
+            return delegate.updateGroup(groupDto);
+        else
+            throw new AccessDeniedException("User does not have access to this group");
     }
 
     @Override
     public void deleteGroup(Long groupId) {
-        delegate.deleteGroup(groupId);
+        if (delegate.groupIsOwnedByCurrentUser(groupId))
+            delegate.deleteGroup(groupId);
+        else
+            throw new AccessDeniedException("User does not have access to this group");
     }
 
     @Override

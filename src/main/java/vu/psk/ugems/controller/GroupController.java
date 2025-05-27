@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import vu.psk.ugems.dto.CreateGroupRequest;
 import vu.psk.ugems.dto.GroupDTO;
-import vu.psk.ugems.service.GroupService;
 import vu.psk.ugems.service.IGroupService;
 
 import java.util.List;
@@ -30,19 +29,16 @@ public class GroupController {
     }
 
     @GetMapping("/{groupId}")
-//    @PreAuthorize("@groupService.groupIsOwnedByCurrentUser(#groupId) or @groupService.currentUserHasAccessToGroup(#groupId)")
     public ResponseEntity<GroupDTO> getGroup(@PathVariable Long groupId) {
         return new ResponseEntity<>(groupService.getGroup(groupId), HttpStatus.OK);
     }
 
     @PutMapping
-    @PreAuthorize("@groupService.groupIsOwnedByCurrentUser(#groupDto.id)")
     public ResponseEntity<GroupDTO> updateGroup(@RequestBody GroupDTO groupDto) {
         return new ResponseEntity<>(groupService.updateGroup(groupDto), HttpStatus.OK);
     }
 
     @DeleteMapping("/{groupId}")
-    @PreAuthorize("@groupService.groupIsOwnedByCurrentUser(#groupId)")
     public ResponseEntity<Void> deleteGroup(@PathVariable Long groupId) {
         groupService.deleteGroup(groupId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
