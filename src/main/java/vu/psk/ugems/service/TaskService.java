@@ -1,12 +1,12 @@
 package vu.psk.ugems.service;
 
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vu.psk.ugems.dto.TaskDTO;
 import vu.psk.ugems.entity.Task;
 import vu.psk.ugems.enums.Status;
 import vu.psk.ugems.interceptor.LoggedAction;
-import vu.psk.ugems.exception.AccessDeniedException;
 import vu.psk.ugems.exception.ResourceNotFoundException;
 import vu.psk.ugems.mapper.TaskMapper;
 import vu.psk.ugems.repository.GroupRepository;
@@ -15,6 +15,7 @@ import vu.psk.ugems.repository.TaskRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @LoggedAction
@@ -80,8 +81,25 @@ public class TaskService {
 
     public TaskDTO updateTask(TaskDTO taskDto) {
 
-        var taskToUpdate = taskRepository.findById(taskDto.getId())
+        var task = taskRepository.findById(taskDto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Task with ID " + taskDto.getId() + " not found"));
+
+        Task taskToUpdate = new Task();
+        taskToUpdate.setId(task.getId());
+        taskToUpdate.setTitle(task.getTitle());
+        taskToUpdate.setCreatedDate(task.getCreatedDate());
+        taskToUpdate.setAssignedDate(task.getAssignedDate());
+        taskToUpdate.setDescription(task.getDescription());
+        taskToUpdate.setDeadline(task.getDeadline());
+        taskToUpdate.setStatus(task.getStatus());
+        taskToUpdate.setGroup(task.getGroup());
+        taskToUpdate.setCreatedBy(task.getCreatedBy());
+        taskToUpdate.setAssignedTo(task.getAssignedTo());
+        taskToUpdate.setVersion(taskDto.getVersion());
+
+//        if (!Objects.equals(taskToUpdate.getVersion(), taskDto.getVersion())) {
+//            throw new OptimisticLockException("Task has been updated already.");
+//        }
 
         if (taskDto.getTitle() != null) {
             taskToUpdate.setTitle(taskDto.getTitle());
@@ -91,6 +109,9 @@ public class TaskService {
         }
         if (taskDto.getDeadline() != null) {
             taskToUpdate.setDeadline(taskDto.getDeadline());
+        }
+        else {
+            taskToUpdate.setDeadline(null);
         }
         if (taskDto.getStatus() != null) {
             taskToUpdate.setStatus(Status.valueOf(taskDto.getStatus()));
@@ -107,7 +128,8 @@ public class TaskService {
             taskToUpdate.setAssignedDate(null);
         }
 
-        return taskMapper.toDto(taskRepository.save(taskToUpdate));
+        var updatedTask = taskRepository.save(taskToUpdate);
+        return taskMapper.toDto(updatedTask);
     }
 
     public void deleteTask(Long id) {

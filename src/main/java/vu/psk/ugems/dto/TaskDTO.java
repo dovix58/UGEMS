@@ -18,6 +18,7 @@ public class TaskDTO {
     private String description;
     private LocalDate deadline;
     private String status;
+    private Long version;
     private Long groupId;
     private Long assignedToId;
     private Long createdById;
