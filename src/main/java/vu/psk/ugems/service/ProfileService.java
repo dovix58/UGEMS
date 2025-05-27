@@ -72,9 +72,6 @@ public class ProfileService {
         if (profileDto.getDescription() != null) {
             profileToUpdate.setDescription(profileDto.getDescription());
         }
-        if (profileDto.getRole() != null) {
-            profileToUpdate.setProfileRole(ProfileRole.MEMBER);
-        }
 
         return profileMapper.toDto(profileRepository.save(profileToUpdate));
     }
