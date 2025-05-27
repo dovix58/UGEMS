@@ -1,5 +1,6 @@
 package vu.psk.ugems.entity;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+@Getter
 public class UserPrincipal implements UserDetails {
     private final User user;
 
@@ -28,8 +30,6 @@ public class UserPrincipal implements UserDetails {
     public String getUsername() {
         return user.getEmail();
     }
-
-    public Long getUserId() { return user.getId(); }
 
     @Override
     public boolean isAccountNonExpired() {

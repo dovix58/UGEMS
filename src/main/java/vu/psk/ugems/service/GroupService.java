@@ -20,18 +20,17 @@ import vu.psk.ugems.repository.UserRepository;
 import java.time.LocalDate;
 import java.util.List;
 
-@Service
+@Service("baseGroupService")
 @LoggedAction
 @RequiredArgsConstructor
-public class GroupService {
+public class GroupService implements IGroupService {
 
     private final GroupRepository groupRepository;
     private final ProfileRepository profileRepository;
     private final GroupMapper groupMapper;
     private final UserRepository userRepository;
-    private final ProfileRepository profileRepository;
 
-
+    @Override
     public GroupDTO createGroup(CreateGroupRequest createGroupRequest) {
         var user = userRepository.findById(createGroupRequest.getCreatorId())
                 .orElseThrow(() -> new ResourceNotFoundException("User with ID " + createGroupRequest.getCreatorId() + "not found"));
@@ -55,6 +54,7 @@ public class GroupService {
         return groupMapper.toDto(savedGroup);
     }
 
+    @Override
     public List<GroupDTO> getGroupsByUser(Long userId) {
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with ID " + userId + "not found"));
@@ -63,12 +63,14 @@ public class GroupService {
         return groupMapper.toDtoList(groups);
     }
 
+    @Override
     public GroupDTO getGroup(Long groupId) {
         var group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new ResourceNotFoundException("Group with ID " + groupId + "not found"));
         return groupMapper.toDto(group);
     }
 
+    @Override
     public GroupDTO updateGroup(GroupDTO groupDto) {
         var group = groupRepository.findById(groupDto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Group with ID " + groupDto.getId() + "not found"));
@@ -80,19 +82,29 @@ public class GroupService {
         return groupMapper.toDto(groupRepository.save(group));
     }
 
+    @Override
     public void deleteGroup(Long groupId) {
         var group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new ResourceNotFoundException("Group with ID " + groupId + "not found"));
         groupRepository.delete(group);
     }
 
+    @Override
     public boolean groupIsOwnedByCurrentUser(Long groupId) {
         var userPrincipal = (UserPrincipal) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
 
-        var group = groupRepository.findById(groupId);
-        // TODO: Get profile by group and user; check if the profile IS_OWNER
-        return true;
+        var profile = profileRepository.findByUserIdAndGroupId(userPrincipal.getUser().getId(), groupId);
+        return profile.getProfileRole() == ProfileRole.OWNER;
+    }
+
+    @Override
+    public boolean currentUserHasAccessToGroup(Long groupId) {
+        var userPrincipal = (UserPrincipal) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        var profile = profileRepository.findByUserIdAndGroupId(userPrincipal.getUser().getId(), groupId);
+        return profile != null;
     }
 }
