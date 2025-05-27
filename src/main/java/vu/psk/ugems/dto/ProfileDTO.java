@@ -13,7 +13,7 @@ public class ProfileDTO {
     private Long id;
     private String username;
     private String description;
-    private String role;
+    private String profileRole;
     private LocalDate joinedDate;
     private Long userId;
     private Long groupId;

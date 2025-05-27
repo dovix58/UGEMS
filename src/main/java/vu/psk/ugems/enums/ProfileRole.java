@@ -1,6 +1,13 @@
 package vu.psk.ugems.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum ProfileRole {
-    OWNER,
-    MEMBER
+    OWNER("Owner"),
+    MEMBER("Member");
+
+    private final String label;
 }
